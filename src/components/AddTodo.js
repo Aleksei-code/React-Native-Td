@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput, Button } from "react-native";
+import { View, StyleSheet, TextInput, Button, Alert, Text } from "react-native";
 
 export const AddTodo = ({ onSubmit }) => {
   const [value, setValue] = useState("");
@@ -9,7 +9,7 @@ export const AddTodo = ({ onSubmit }) => {
       onSubmit(value);
       setValue("");
     } else {
-      //error
+      Alert.alert("Your Task name cannot be empty");
     }
   };
 
@@ -20,8 +20,12 @@ export const AddTodo = ({ onSubmit }) => {
         onChangeText={setValue}
         value={value}
         placeholder="Enter your task"
+        autoCorrect={false}
+        autoCapitalize="none"
       />
-      <Button title="Add" onPress={pressHandler} />
+      <View style={styles.addButton}>
+        <Button title="Add" onPress={pressHandler} />
+      </View>
     </View>
   );
 };
@@ -38,5 +42,8 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderBottomWidth: 2,
     borderBottomColor: "#3949ab",
+  },
+  addButton: {
+    width: "25%",
   },
 });

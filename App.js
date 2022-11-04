@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, ScrollView, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  FlatList,
+  Alert,
+} from "react-native";
 import { Navbar } from "./src/components/Navbar";
 import { MainScreen } from "./src/screens/MainScreen";
 import { TodoScreen } from "./src/screens/TodoScreen";
@@ -21,13 +28,39 @@ export default function App() {
     ]);
   };
 
+  const updTodo = (id, title) => {
+    setTodos((old) =>
+      old.map((todo) => {
+        if (todo.id === id) {
+          todo.title = title;
+        }
+        return todo;
+      })
+    );
+  };
+
   const onOpen = (id) => {
     setTodoId(id);
   };
 
   const deleteTodo = (id) => {
-    setTodos((prev) => prev.filter((todo) => todo.id !== id));
-    setTodoId(null);
+    const todo = todos.find((el) => el.id === id);
+    Alert.alert(
+      "Delete element",
+      `Are you sure, you want to delete ${todo.title}?`,
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "OK",
+          style: "destructive",
+          onPress: () => {
+            setTodoId(null);
+            setTodos((prev) => prev.filter((todo) => todo.id !== id));
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   let content = (
@@ -46,6 +79,7 @@ export default function App() {
         deleteItem={() => deleteTodo(todoId)}
         goBack={() => setTodoId(null)}
         todo={selectedTodo}
+        onSave={updTodo}
       />
     );
   }

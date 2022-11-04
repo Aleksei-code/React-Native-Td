@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
+import { THEME } from "../theme";
 
 export const TodoScreen = ({ goBack, deleteItem, todo }) => {
   return (
@@ -7,10 +8,10 @@ export const TodoScreen = ({ goBack, deleteItem, todo }) => {
       <Text>{todo.title} </Text>
       <View style={styles.buttonsGroup}>
         <View style={styles.button}>
-          <Button color="gray" title="Back" onPress={goBack} />
+          <Button color={THEME.GREY_COLOR} title="Back" onPress={goBack} />
         </View>
         <View style={styles.button}>
-          <Button color="red" title="Delete" onPress={deleteItem} />
+          <Button color={THEME.DANGER_COLOR} title="Delete" onPress={deleteItem} />
         </View>
       </View>
     </View>

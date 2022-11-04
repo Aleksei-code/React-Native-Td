@@ -1,6 +1,6 @@
-# React-Native-Td
+# React-Native-ToDo-App
 
-Classic ToDo App for Android & iOS (React Native)
+A Classic ToDo App for Android & iOS (React Native)
 
 Main commands:
 

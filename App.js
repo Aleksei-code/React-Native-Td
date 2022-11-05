@@ -1,22 +1,48 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  FlatList,
-  Alert,
-} from "react-native";
+import React, { useCallback, useState, useEffect } from "react";
+import { StyleSheet, View, Alert } from "react-native";
+import * as Font from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+
 import { Navbar } from "./src/components/Navbar";
 import { MainScreen } from "./src/screens/MainScreen";
 import { TodoScreen } from "./src/screens/TodoScreen";
+import { THEME } from "./src/theme";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const [isLoaded, setLoaded] = useState(false);
   const [todoId, setTodoId] = useState(null);
   const [todos, setTodos] = useState([
     { id: "1", title: "To do homework" },
     { id: "2", title: "To make the right decision" },
   ]);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync({
+          "source-sans-regular": require("./assets/fonts/SourceSansPro-Regular.ttf"),
+          "source-sans-bold": require("./assets/fonts/SourceSansPro-Bold.ttf"),
+        });
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setLoaded(true);
+      }
+    }
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (isLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [isLoaded]);
+
+  if (!isLoaded) {
+    return null;
+  }
 
   const addTodo = (title) => {
     setTodos((prev) => [
@@ -85,7 +111,7 @@ export default function App() {
   }
 
   return (
-    <View>
+    <View onLayout={onLayoutRootView}>
       <Navbar title="Todo App" />
       <View style={styles.container}>{content}</View>
     </View>
@@ -94,7 +120,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 30,
+    paddingHorizontal: THEME.PADDING_HORIZONTAL,
     paddingVertical: 20,
   },
 });

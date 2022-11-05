@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput, Button, Alert, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Button,
+  Alert,
+  Keyboard,
+} from "react-native";
 import { THEME } from "../theme";
+import { AntDesign } from "@expo/vector-icons";
 
 export const AddTodo = ({ onSubmit }) => {
   const [value, setValue] = useState("");
@@ -9,6 +17,7 @@ export const AddTodo = ({ onSubmit }) => {
     if (value.trim()) {
       onSubmit(value);
       setValue("");
+      Keyboard.dismiss();
     } else {
       Alert.alert("Your Task name cannot be empty");
     }
@@ -24,9 +33,12 @@ export const AddTodo = ({ onSubmit }) => {
         autoCorrect={false}
         autoCapitalize="none"
       />
-      <View style={styles.addButton}>
+      <AntDesign.Button onPress={pressHandler} name="plussquareo">
+        Add
+      </AntDesign.Button>
+      {/* <View style={styles.addButton}>
         <Button title="Add" onPress={pressHandler} />
-      </View>
+      </View> */}
     </View>
   );
 };

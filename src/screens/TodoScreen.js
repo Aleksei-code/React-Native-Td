@@ -15,15 +15,11 @@ export const TodoScreen = () => {
   const [modal, setModal] = useState(false);
 
   const todo = todos.find((t) => t.id === todoId);
-  const saveHandler = (title) => {
-    updTodo(todo.id, title);
+  const saveHandler = async (title) => {
+    await updTodo(todo.id, title);
     setModal(false);
   };
 
-  // deleteItem={() => deleteTodo(todoId)}
-  // goBack={() => changeScreen(null)}
-  // todo={selectedTodo}
-  // onSave={updTodo}
   return (
     <View>
       <EditModal
